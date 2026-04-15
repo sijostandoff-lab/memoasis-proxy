@@ -3,44 +3,152 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>memoasis | native access</title>
+    <title>memoasis | private access</title>
     <style>
         :root {
-            --bg: #0a0a0a; --accent: #ffffff;
-            --glass: rgba(255, 255, 255, 0.03); --border: rgba(255, 255, 255, 0.1);
+            --bg: #050505;
+            --accent: #ffffff;
+            --glass: rgba(255, 255, 255, 0.03);
+            --border: rgba(255, 255, 255, 0.08);
+            --subtext: #707070;
         }
+
         body {
             background-color: var(--bg);
-            background-image: radial-gradient(circle at 50% -20%, #1e1e1e 0%, transparent 50%), radial-gradient(circle at 0% 100%, #111 0%, transparent 40%);
-            color: var(--accent); font-family: 'Inter', -apple-system, sans-serif;
-            display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; overflow: hidden;
+            background-image: 
+                radial-gradient(circle at 50% -20%, #1a1a1a 0%, transparent 50%),
+                radial-gradient(circle at 0% 100%, #080808 0%, transparent 40%);
+            color: var(--accent);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
         }
+
         .card {
-            background: var(--glass); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-            border: 1px solid var(--border); padding: 60px 40px; border-radius: 24px; text-align: center; max-width: 320px; width: 90%;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4); animation: fadeIn 1s ease-out;
+            background: var(--glass);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid var(--border);
+            padding: 50px 30px;
+            border-radius: 32px;
+            text-align: center;
+            max-width: 340px;
+            width: 90%;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            animation: cardAppear 1.2s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
-        h1 { font-size: 32px; font-weight: 700; letter-spacing: -1px; margin: 0 0 10px 0; background: linear-gradient(180deg, #fff 0%, #888 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        p { color: #666; font-size: 14px; margin-bottom: 40px; text-transform: uppercase; letter-spacing: 2px; }
+
+        .logo-area {
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-size: 38px;
+            font-weight: 800;
+            letter-spacing: -1.5px;
+            margin: 0;
+            background: linear-gradient(180deg, #fff 30%, #555 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .brand-sub {
+            color: var(--subtext);
+            font-size: 12px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            margin-top: 8px;
+        }
+
+        .description {
+            color: #999;
+            font-size: 15px;
+            line-height: 1.6;
+            margin-bottom: 45px;
+        }
+
         .btn {
-            background: #fff; color: #000; padding: 16px 32px; text-decoration: none; border-radius: 12px; font-weight: 600; font-size: 15px; display: block; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(255,255,255,0.1);
+            background: var(--accent);
+            color: #000;
+            padding: 18px 32px;
+            text-decoration: none;
+            border-radius: 16px;
+            font-weight: 700;
+            font-size: 16px;
+            display: block;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 10px 20px rgba(255, 255, 255, 0.05);
         }
-        .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(255,255,255,0.2); filter: brightness(0.9); }
-        .status { margin-top: 30px; font-size: 11px; color: #444; display: flex; align-items: center; justify-content: center; gap: 6px; }
-        .dot { width: 6px; height: 6px; background: #00ff66; border-radius: 50%; box-shadow: 0 0 10px #00ff66; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        .btn:hover {
+            transform: scale(1.03) translateY(-3px);
+            box-shadow: 0 15px 30px rgba(255, 255, 255, 0.15);
+            background: #f0f0f0;
+        }
+
+        .btn:active {
+            transform: scale(0.98);
+        }
+
+        .status-bar {
+            margin-top: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 10px;
+            color: #444;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .indicator {
+            width: 6px;
+            height: 6px;
+            background: #00ff88;
+            border-radius: 50%;
+            box-shadow: 0 0 12px #00ff88;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes cardAppear {
+            from { opacity: 0; transform: translateY(30px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
+            100% { opacity: 1; transform: scale(1); }
+        }
     </style>
 </head>
 <body>
+
     <div class="card">
-        <h1>memoasis</h1>
-        <p>Native Telegram Proxy</p>
+        <div class="logo-area">
+            <h1>memoasis</h1>
+            <div class="brand-sub">secure node</div>
+        </div>
+        
+        <p class="description">
+            Нативный доступ к Telegram через приватный MTProto шлюз. 
+        </p>
         
         <a href="tg://proxy?server=nozomi.proxy.rlwy.net&port=46258&secret=ee7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d676f6f676c652e636f6d" class="btn">
-            Подключить в Telegram
+            Подключить прокси
         </a>
 
-        <div class="status"><div class="dot"></div>MTPROTO ACTIVE</div>
+        <div class="status-bar">
+            <div class="indicator"></div>
+            ENCRYPTED CONNECTION ACTIVE
+        </div>
     </div>
+
 </body>
 </html>
