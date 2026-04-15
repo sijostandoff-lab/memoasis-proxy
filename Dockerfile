@@ -1,25 +1,18 @@
-# Этап 1: Берем официальный образ Xray, чтобы вытащить оттуда бинарник
-FROM teddysun/xray:latest AS xray-core
+FROM python:3.10-slim
 
-# Этап 2: Собираем наш рабочий образ
-FROM alpine:latest
+# Устанавливаем git
+RUN apt-get update && apt-get install -y git curl && rm -rf /var/lib/apt/lists/*
 
-# Устанавливаем ТОЛЬКО python3 (xray больше не ищем в apk)
-RUN apk add --no-cache python3
+# Качаем MTProto прокси
+RUN git clone https://github.com/alexbers/mtprotoproxy.git /mtproxy
 
-# Копируем готовый бинарник xray из первого этапа
-COPY --from=xray-core /usr/bin/xray /usr/bin/xray
-
-# Создаем папку для конфига на всякий случай
-RUN mkdir -p /etc/xray
-
-# Копируем конфиги и файлы из репозитория
-COPY config.json /etc/xray/config.json
+# Копируем наши файлы
+COPY config.py /mtproxy/config.py
 COPY index.html /index.html
-COPY main.py /main.py
+COPY start.sh /start.sh
 
-# Открываем порт
-EXPOSE 8080
+# Даем права на запуск
+RUN chmod +x /start.sh
 
-# Запускаем наш скрипт
-CMD ["python3", "/main.py"]
+# Запускаем главный скрипт
+CMD ["/start.sh"]
